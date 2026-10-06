@@ -1,0 +1,9 @@
+{
+  "name": "Рыжий Том 2D — Ultimate",
+  "short_name": "Рыжий Том",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#fff2d8",
+  "theme_color": "#ff9f43",
+  "orientation": "portrait"
+}

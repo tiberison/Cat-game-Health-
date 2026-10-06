@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="theme-color" content="#ff9f43">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Рыжий Том 2D">
+<title>Рыжий Том 2D — Ultimate</title>
+<style>
+:root{--bg:#fff2d8;--card:#fffaf1;--ink:#4b2d1b;--accent:#ff9f43;--green:#8bd17c;--blue:#78c9ff;--pink:#ff8fb1;--shadow:0 8px 25px #70410d18}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:radial-gradient(circle at top,#fff8e9,#ffe6bd);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--ink);min-height:100vh}
+button{font:inherit;border:0;cursor:pointer;color:var(--ink);font-weight:800;border-radius:16px;padding:11px 9px;background:#ffb35c;box-shadow:0 3px 0 #d77e25}
+button:active{transform:translateY(2px);box-shadow:0 1px 0 #d77e25}
+button.secondary{background:#ffe1aa}.green{background:#a9e694;box-shadow:0 3px 0 #6eaf5e}.blue{background:#9bddff;box-shadow:0 3px 0 #5da5cf}.pink{background:#ffb3c9;box-shadow:0 3px 0 #d46f8c}
+.app{width:min(680px,100%);margin:auto;padding:10px 12px 28px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.logo{font-size:24px;font-weight:1000}.wallet{background:#fff;border:2px solid #f1d09f;border-radius:18px;padding:7px 12px;font-weight:900}
+.nav{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin:9px 0}.nav button{font-size:12px;padding:10px 4px;background:#fff4df;box-shadow:none;border:2px solid #f1d3a4}.nav button.active{background:#ffb35c;border-color:#e4933b}
+.page{display:none}.page.active{display:block}
+.card{background:rgba(255,250,241,.94);border:2px solid #efd2a4;border-radius:24px;padding:12px;margin:9px 0;box-shadow:var(--shadow)}
+.status{display:grid;grid-template-columns:1fr 1fr;gap:7px}.stat{background:#fff3dc;padding:7px 9px;border-radius:14px;font-size:13px}.bar{height:9px;background:#e7d9c2;border-radius:99px;overflow:hidden;margin-top:4px}.fill{height:100%;width:70%;background:var(--accent);transition:.3s}
+.stage{height:365px;border-radius:20px;overflow:hidden;position:relative;background:linear-gradient(#8fd8ff 0 64%,#bce79c 64%);border:2px solid #e2c79b}
+.stage.night{background:linear-gradient(#263b67 0 64%,#526b4d 64%)}.moon{position:absolute;right:28px;top:25px;font-size:34px}.sun{position:absolute;left:25px;top:22px;font-size:35px}
+.floor{position:absolute;bottom:0;left:0;right:0;height:30px;background:#a77a50}
+.cat{position:absolute;width:250px;left:50%;bottom:18px;transform:translateX(-50%);transform-origin:50% 90%;filter:drop-shadow(0 14px 8px #0002);animation:breathe 2.5s ease-in-out infinite}
+@keyframes breathe{50%{transform:translateX(-50%) translateY(-4px) scaleY(1.015)}}
+.cat.jump{animation:jump .7s ease-in-out}.cat.dance{animation:dance .8s ease-in-out}.cat.shake{animation:shake .5s ease-in-out}.cat.sleep{animation:sleep 3s ease-in-out infinite}
+@keyframes jump{35%{transform:translateX(-50%) translateY(-75px) rotate(-5deg)}70%{transform:translateX(-50%) translateY(-75px) rotate(5deg)}}
+@keyframes dance{25%{transform:translateX(-50%) rotate(-9deg)}50%{transform:translateX(-50%) rotate(9deg)}75%{transform:translateX(-50%) rotate(-7deg)}}
+@keyframes shake{25%{transform:translateX(calc(-50% - 8px))}50%{transform:translateX(calc(-50% + 8px))}75%{transform:translateX(calc(-50% - 5px))}}
+@keyframes sleep{50%{transform:translateX(-50%) translateY(5px) rotate(2deg)}}
+.badge{position:absolute;top:12px;left:12px;background:#fff9;border-radius:14px;padding:7px 10px;font-weight:900}.zzz{position:absolute;right:24%;top:22%;font-size:25px;opacity:0}.zzz.show{animation:zzz 2s ease-out}
+@keyframes zzz{20%,70%{opacity:1}100%{opacity:0;transform:translateY(-28px)}}
+.msg{text-align:center;font-size:18px;font-weight:900;min-height:28px;margin:7px}.actions{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}.actions button{min-height:58px}
+.tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:8px}.section-title{font-size:20px;font-weight:1000;margin:3px 0 8px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}.item{background:#fff5e3;border:2px solid #efd4a9;border-radius:18px;padding:10px;text-align:center}.emoji{font-size:42px}.item h3{margin:2px 0}.item p{margin:4px 0;color:#805d3f;font-size:13px}.item button{width:100%}
+.quest{display:flex;align-items:center;gap:9px;background:#fff4df;border-radius:16px;padding:9px;margin:7px 0}.quest .qtext{flex:1;font-size:13px}.quest small{display:block;color:#876648}.check{font-size:22px}
+.achievement{display:flex;gap:10px;align-items:center;padding:10px;border-radius:16px;background:#fff4df;margin:7px 0}.achievement.lock{opacity:.5;filter:grayscale(.7)}
+.profile{display:grid;grid-template-columns:90px 1fr;gap:12px;align-items:center}.avatar{width:90px;height:90px;border-radius:50%;background:#ffb35c;display:grid;place-items:center;font-size:50px;border:4px solid #fff;box-shadow:var(--shadow)}
+.toast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,120px);background:#3c291d;color:#fff;padding:12px 18px;border-radius:18px;font-weight:900;z-index:50;transition:.3s;max-width:90%;text-align:center}.toast.show{transform:translate(-50%,0)}
+.overlay{position:fixed;inset:0;background:#0008;display:none;place-items:center;z-index:40;padding:20px}.modal{width:min(520px,100%);background:#fff8e9;border-radius:25px;padding:17px;box-shadow:0 20px 60px #0005}.modal h2{margin-top:0}.close{float:right;background:#eee;box-shadow:none;padding:7px 11px}
+.game-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.hole{aspect-ratio:1;background:#ead7b9;border-radius:18px;display:grid;place-items:center;font-size:35px}.hole.active{background:#a9e694}.tiny{font-size:12px;color:#876648;text-align:center}
+@media(max-width:380px){.nav button{font-size:10px}.actions button{font-size:13px}.stage{height:330px}}
+</style>
+</head>
+<body>
+<div class="app">
+<div class="top"><div class="logo">🐱 Рыжий Том 2D</div><div class="wallet">💰 <span id="coins">150</span></div></div>
+<div class="nav">
+<button class="active" data-page="home" onclick="go('home')">🏠<br>Дом</button>
+<button data-page="shop" onclick="go('shop')">🛍️<br>Магазин</button>
+<button data-page="games" onclick="go('games')">🎮<br>Игры</button>
+<button data-page="quests" onclick="go('quests')">🎯<br>Задания</button>
+<button data-page="profile" onclick="go('profile')">🏆<br>Профиль</button>
+<button data-page="clinic" onclick="go('clinic')">🏥<br>Клиника</button>
+</div>
+
+<section id="home" class="page active">
+<div class="card">
+<div class="stage" id="stage"><div class="sun" id="sun">☀️</div><div class="moon" id="moon">🌙</div><div class="badge" id="moodBadge">😺 Отлично</div><div id="zzz" class="zzz">💤 Zzz...</div>
+<svg id="cat" class="cat" viewBox="0 0 260 310" xmlns="http://www.w3.org/2000/svg">
+<path d="M185 225 C245 238 250 175 218 160 C205 154 197 166 209 174 C225 184 220 201 193 195" fill="none" stroke="#d66b1f" stroke-width="24" stroke-linecap="round"/>
+<ellipse cx="130" cy="220" rx="79" ry="70" fill="#e9822b"/><ellipse cx="130" cy="240" rx="50" ry="44" fill="#f7b45e"/>
+<path d="M57 113 L70 35 L112 72 Q130 63 149 72 L193 35 L204 113 Q211 181 130 187 Q49 181 57 113Z" fill="#ed8930"/>
+<path d="M72 53 L79 96 L103 75Z" fill="#f6ad67"/><path d="M191 53 L184 96 L160 75Z" fill="#f6ad67"/>
+<ellipse cx="96" cy="119" rx="19" ry="23" fill="#fff"/><ellipse cx="164" cy="119" rx="19" ry="23" fill="#fff"/>
+<ellipse cx="97" cy="121" rx="7" ry="13" fill="#34261e"/><ellipse cx="163" cy="121" rx="7" ry="13" fill="#34261e"/>
+<circle cx="99" cy="116" r="3" fill="#fff"/><circle cx="165" cy="116" r="3" fill="#fff"/>
+<path d="M123 138 Q130 132 137 138 L130 146Z" fill="#c94e4e"/>
+<path d="M130 146 Q121 157 112 150 M130 146 Q139 157 148 150" fill="none" stroke="#5d3427" stroke-width="3" stroke-linecap="round"/>
+<g stroke="#7b4a2d" stroke-width="2" stroke-linecap="round"><path d="M108 143 L52 132"/><path d="M108 151 L47 151"/><path d="M108 158 L55 172"/><path d="M152 143 L208 132"/><path d="M152 151 L213 151"/><path d="M152 158 L205 172"/></g>
+<ellipse cx="95" cy="278" rx="28" ry="18" fill="#f3a04c"/><ellipse cx="165" cy="278" rx="28" ry="18" fill="#f3a04c"/>
+</svg><div class="floor"></div></div>
+<div class="msg" id="msg">Мр-р-р! Это мой дом 😺</div>
+<div class="status">
+<div class="stat">🍗 Голод<div class="bar"><div id="hunger" class="fill"></div></div></div>
+<div class="stat">😺 Настроение<div class="bar"><div id="mood" class="fill"></div></div></div>
+<div class="stat">⚡ Энергия<div class="bar"><div id="energy" class="fill"></div></div></div>
+<div class="stat">🛁 Чистота<div class="bar"><div id="clean" class="fill"></div></div></div>
+</div>
+</div>
+<div class="card">
+<div class="actions">
+<button onclick="feed()">🍗 Кормить<br>+10</button><button onclick="play()">🎾 Играть<br>+12</button><button onclick="pet()">🥰 Гладить<br>+8</button>
+<button onclick="sleep()">😴 Спать</button><button onclick="wash()">🛁 Купать</button><button class="green" onclick="work()">💼 Работа<br>+25💰</button>
+</div>
+</div>
+</section>
+
+<section id="shop" class="page">
+<div class="card"><div class="section-title">🛍️ Магазин</div><div class="tiny">Покупай предметы и улучшай жизнь кота.</div></div>
+<div class="grid" id="shopGrid"></div>
+</section>
+
+<section id="games" class="page">
+<div class="card"><div class="section-title">🎮 Мини-игры</div><div class="tiny">Лови мышку! За 15 секунд нужно нажать на неё как можно больше раз.</div><button class="green" style="width:100%;margin-top:9px" onclick="startWhack()">🐭 Начать игру</button></div>
+<div class="card"><div class="game-grid" id="whackGrid"></div><div class="tiny" id="gameScore">Счёт: 0</div></div>
+<div class="card"><button class="blue" style="width:100%" onclick="dance()">🕺 Танец кота</button></div>
+</section>
+
+<section id="quests" class="page">
+<div class="card"><div class="section-title">🎯 Ежедневные задания</div><div id="questList"></div></div>
+<div class="card"><div class="section-title">🔥 Серия</div><div id="streak">0 дней</div><div class="tiny">За ежедневный вход получай бонус.</div></div>
+</section>
+
+<section id="profile" class="page">
+<div class="card profile"><div class="avatar">🐱</div><div><div class="section-title">Мой кот</div><b>Уровень <span id="level">1</span></b><div class="bar"><div id="xpbar" class="fill"></div></div><small><span id="xp">0</span> / <span id="xpNeed">100</span> XP</small></div></div>
+<div class="card"><div class="section-title">🏆 Достижения</div><div id="achievements"></div></div>
+<div class="card"><button class="pink" style="width:100%" onclick="resetGame()">♻️ Сбросить прогресс</button></div>
+</section>
+</div>
+
+<div id="toast" class="toast"></div>
+<div id="overlay" class="overlay"><div class="modal"><button class="close" onclick="closeModal()">✕</button><h2 id="modalTitle"></h2><div id="modalBody"></div></div></div>
+
+<script>
+const D={hunger:72,mood:78,energy:75,clean:82,coins:150,level:1,xp:0,inv:{},bought:{},quests:{feed:0,play:0,work:0,shop:0,game:0},streak:1,lastDay:"",totalActions:0,illness:null,illnessProgress:0,diagnosed:false,clinicWins:0};
+let s=JSON.parse(localStorage.getItem("tom-ultimate")||"null")||structuredClone(D);
+const $=id=>document.getElementById(id), clamp=x=>Math.max(0,Math.min(100,x));
+const items=[
+{id:"fish",e:"🐟",n:"Золотая рыбка",d:"+18 голода",c:35,act:()=>{s.hunger=clamp(s.hunger+18)}},
+{id:"ball",e:"⚽",n:"Супер-мяч",d:"Игры дают +5 настроения",c:80},
+{id:"milk",e:"🥛",n:"Молоко",d:"+25 энергии",c:55,act:()=>{s.energy=clamp(s.energy+25)}},
+{id:"bed",e:"🛏️",n:"Мягкая кровать",d:"Сон восстанавливает +20 энергии",c:140},
+{id:"bath",e:"🧼",n:"Шампунь",d:"Купание даёт +10 настроения",c:70},
+{id:"crown",e:"👑",n:"Корона",d:"Королевский стиль",c:220},
+{id:"glasses",e:"🕶️",n:"Очки",d:"Очень крутой кот",c:180},
+{id:"house",e:"🏠",n:"Большой дом",d:"Каждый час +10 монет",c:300}
+];
+function save(){localStorage.setItem("tom-ultimate",JSON.stringify(s));render()}
+function toast(t){$("toast").textContent=t;$("toast").classList.add("show");setTimeout(()=>$("toast").classList.remove("show"),1800)}
+function xp(n){s.xp+=n;while(s.xp>=s.level*100){s.xp-=s.level*100;s.level++;toast("🎉 Новый уровень: "+s.level+"!");}save()}
+function anim(a){let c=$("cat");c.className="cat";void c.offsetWidth;c.classList.add(a)}
+function say(t){$("msg").textContent=t}
+function action(kind){
+s.totalActions++; if(kind==="feed")s.quests.feed++;if(kind==="play")s.quests.play++;if(kind==="work")s.quests.work++;
+if(kind==="feed")s.hunger=clamp(s.hunger+10),s.clean=clamp(s.clean-2),say("Ням-ням! 🍗");
+if(kind==="play"){if(s.energy<10)return say("😴 Я устал!");s.mood=clamp(s.mood+12+(s.bought.ball?5:0));s.energy=clamp(s.energy-10);s.hunger=clamp(s.hunger-5);say("Ура! 🎾")}
+if(kind==="pet")s.mood=clamp(s.mood+8),say("Мр-р-р... 🥰");
+if(kind==="sleep")s.energy=clamp(s.energy+(s.bought.bed?45:25)),s.hunger=clamp(s.hunger-4),say("Ззз... 😴");
+if(kind==="wash")s.clean=clamp(s.clean+25),s.mood=clamp(s.mood+(s.bought.bath?10:3)),say("Чистенько! 🛁");
+if(kind==="work")s.coins+=25;s.mood=clamp(s.mood-2);say("Работа сделана! +25💰");
+s.quests.shop=s.quests.shop;xp(5);save()
+}
+function feed(){anim("pet");action("feed")}function play(){anim("jump");action("play")}function pet(){anim("dance");action("pet")}
+function sleep(){anim("sleep");$("zzz").classList.remove("show");void $("zzz").offsetWidth;$("zzz").classList.add("show");action("sleep")}
+function wash(){anim("shake");action("wash")}function work(){anim("shake");action("work")}
+function dance(){anim("dance");say("🕺 Мяу-танец!");xp(3)}
+function buy(id){
+let it=items.find(x=>x.id===id);if(s.coins<it.c)return toast("😿 Не хватает монет!");
+s.coins-=it.c;s.bought[id]=(s.bought[id]||0)+1;s.quests.shop++;if(it.act)it.act();toast("Куплено: "+it.e+" "+it.n);xp(8);save()
+}
+function renderShop(){$("shopGrid").innerHTML=items.map(i=>`<div class="item"><div class="emoji">${i.e}</div><h3>${i.n}</h3><p>${i.d}</p><button onclick="buy('${i.id}')">${i.c} 💰</button></div>`).join("")}
+function go(p){document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));$(p).classList.add("active");document.querySelectorAll(".nav button").forEach(b=>b.classList.toggle("active",b.dataset.page===p));render()}
+function startWhack(){
+if(window.gameTimer)return;let score=0,grid=$("whackGrid"),start=Date.now();$("gameScore").textContent="Счёт: 0";
+grid.innerHTML=Array.from({length:9},(_,i)=>`<button class="hole" id="h${i}" onclick="hit(${i})">🕳️</button>`).join("");
+function move(){document.querySelectorAll(".hole").forEach(x=>x.classList.remove("active"));let i=Math.floor(Math.random()*9);$("h"+i).classList.add("active");window.currentHole=i}
+window.hit=i=>{if(i===window.currentHole){score++;$("gameScore").textContent="Счёт: "+score;move()}}
+move();window.gameTimer=setInterval(move,700);setTimeout(()=>{clearInterval(window.gameTimer);window.gameTimer=null;s.coins+=score*4;s.quests.game++;xp(score*3);toast("🐭 Игра окончена! +"+score*4+"💰");$("gameScore").textContent="Финал: "+score+" мышек";},15000)
+}
+const qs=[["feed","🍗 Покорми кота 3 раза",3,30],["play","🎾 Поиграй 3 раза",3,35],["work","💼 Поработай 2 раза",2,40],["shop","🛍️ Купи 1 предмет",1,45],["game","🎮 Сыграй в мини-игру",1,60]];
+function renderQuests(){$("questList").innerHTML=qs.map(q=>{let v=Math.min(s.quests[q[0]]||0,q[2]),done=v>=q[2];return `<div class="quest"><div class="check">${done?"✅":"🎯"}</div><div class="qtext"><b>${q[1]}</b><small>${v}/${q[2]} · награда ${q[3]}💰</small></div>${done?`<button onclick="claim('${q[0]}',${q[3]})">Забрать</button>`:""}</div>`}).join("")}
+let claimed={}; // persisted separately
+claimed=JSON.parse(localStorage.getItem("tom-claims")||"{}");
+function claim(id,c){if(claimed[id])return toast("Уже забрано");claimed[id]=1;s.coins+=c;localStorage.setItem("tom-claims",JSON.stringify(claimed));toast("🎁 +"+c+" монет!");save()}
+function renderAchievements(){
+let a=[["🌟","Первый уровень",s.level>=2],["💰","Богач",s.coins>=500],["🎮","Игроман",s.quests.game>=3],["🛍️","Шопоголик",Object.keys(s.bought).length>=4],["❤️","Забота",s.totalActions>=30],["👑","Королевский кот",!!s.bought.crown]];
+$("achievements").innerHTML=a.map(x=>`<div class="achievement ${x[2]?"":"lock"}"><span style="font-size:28px">${x[0]}</span><div><b>${x[1]}</b><div class="tiny">${x[2]?"Получено":"Заблокировано"}</div></div></div>`).join("")
+}
+function moodText(){let v=(s.hunger+s.mood+s.energy+s.clean)/4;return v>80?"😻 Супер":v>60?"😺 Отлично":v>40?"🙂 Нормально":"😿 Мне плохо"}
+function render(){
+$("coins").textContent=s.coins;$("hunger").style.width=s.hunger+"%";$("mood").style.width=s.mood+"%";$("energy").style.width=s.energy+"%";$("clean").style.width=s.clean+"%";$("level").textContent=s.level;$("xp").textContent=s.xp;$("xpNeed").textContent=s.level*100;$("xpbar").style.width=(s.xp/(s.level*100)*100)+"%";$("moodBadge").textContent=moodText();$("streak").textContent=s.streak+" "+(s.streak===1?"день":"дней");$("stage").classList.toggle("night",new Date().getHours()>=20||new Date().getHours()<7);$("sun").style.display=$("stage").classList.contains("night")?"none":"block";$("moon").style.display=$("stage").classList.contains("night")?"block":"none";renderShop();renderQuests();renderAchievements();renderClinic()
+}
+
+const ILLNESSES=[
+ {id:"cold",name:"Простуда",emoji:"🤧",sym:["🤧 Чихает","💧 Насморк","🥶 Зябко"],hint:"Кот часто чихает и хочет спать.",treat:"medicine"},
+ {id:"fever",name:"Жар",emoji:"🌡️",sym:["🔥 Горячий нос","😴 Вялость","💦 Жажда"],hint:"Кот кажется горячим и вялым.",treat:"cool"},
+ {id:"stomach",name:"Болит живот",emoji:"🤢",sym:["🤢 Не хочет есть","🌀 Ворчит живот","😿 Грустит"],hint:"После еды коту некомфортно.",treat:"medicine"},
+ {id:"allergy",name:"Аллергия",emoji:"😿",sym:["🤧 Чихает","👀 Слезятся глаза","🐾 Чешется"],hint:"Кот чешется и часто чихает.",treat:"medicine"},
+ {id:"tired",name:"Сильная усталость",emoji:"🥱",sym:["🥱 Зевает","🛌 Хочет спать","⚡ Мало сил"],hint:"Коту совсем не хватает энергии.",treat:"rest"},
+ {id:"ear",name:"Болит ушко",emoji:"👂",sym:["👂 Трясёт головой","😿 Не любит поглаживания","🙉 Наклоняет голову"],hint:"Кот беспокоится из-за ушка.",treat:"medicine"}
+];
+function currentIllness(){return ILLNESSES.find(x=>x.id===s.illness)}
+function maybeIllness(){
+  if(s.illness || Math.random()>0.18) return;
+  const i=ILLNESSES[Math.floor(Math.random()*ILLNESSES.length)];
+  s.illness=i.id;s.illnessProgress=0;s.diagnosed=false;
+  toast(i.emoji+" Кот заболел: "+i.name+"!");
+  say("😿 Мне плохо... Нужен врач!");
+  save();
+}
+function renderClinic(){
+ const i=currentIllness(), card=$("illnessCard"), area=$("diagnosisArea");
+ if(!i){
+   card.innerHTML='<div class="section-title">😺 Кот здоров!</div><div class="tiny">Пока никаких болезней. Но иногда стоит заглядывать сюда.</div>';
+   area.innerHTML='<button class="green" style="width:100%" onclick="startDiagnosis()">🔍 Проверить кота</button>';
+   return;
+ }
+ card.innerHTML=`<div class="section-title">${i.emoji} Кот болеет</div>
+ <p><b>Болезнь:</b> ${s.diagnosed?i.name:"неизвестна"}</p>
+ <p><b>Симптомы:</b> ${i.sym.join(" · ")}</p>
+ <p><b>Прогресс лечения:</b> ${s.illnessProgress}/3</p>
+ <div class="bar"><div class="fill" style="width:${s.illnessProgress/3*100}%"></div></div>`;
+ if(s.diagnosed) area.innerHTML=`<div class="tiny">Ты поставил диагноз. Теперь выбери правильное лечение ниже.</div>`;
+ else area.innerHTML=`<button class="blue" style="width:100%" onclick="startDiagnosis()">🩺 Начать осмотр</button>`;
+}
+function startDiagnosis(){
+ const i=currentIllness();
+ if(!i){toast("😺 Кот здоров!");return}
+ const choices=ILLNESSES.sort(()=>Math.random()-.5).slice(0,4);
+ $("diagnosisArea").innerHTML='<div class="tiny" style="margin-bottom:8px">Какой диагноз подходит по симптомам?</div>'+
+ choices.map(x=>`<button style="width:100%;margin:4px 0" onclick="diagnose('${x.id}')">${x.emoji} ${x.name}</button>`).join("");
+}
+function diagnose(id){
+ if(id===s.illness){s.diagnosed=true;s.clinicWins++;xp(12);toast("✅ Диагноз верный!");}
+ else {s.mood=clamp(s.mood-5);toast("❌ Не тот диагноз. Осмотри симптомы ещё раз.");}
+ save();renderClinic();
+}
+function clinicCheck(type){
+ const i=currentIllness();
+ if(!i)return toast("😺 Проверять нечего — кот здоров!");
+ if(type==="temp"){
+   toast(i.id==="fever"?"🌡️ Температура повышена!":"🌡️ Температура нормальная.");
+ } else {
+   toast(i.id==="ear"?"🩺 Кот беспокоится при проверке ушка.":"🩺 Сердце бьётся спокойно.");
+ }
+ xp(2);
+}
+function clinicTreat(force){
+ const i=currentIllness();
+ if(!i)return toast("😺 Кот уже здоров!");
+ if(!s.diagnosed && !force)return toast("🔍 Сначала поставь диагноз!");
+ if(i.treat==="cool" || force==="fever"){
+   s.illnessProgress++;
+   s.energy=clamp(s.energy+4);
+   toast("🧊 Коту стало прохладнее!");
+ } else if(i.treat==="rest"){
+   s.illnessProgress++;
+   s.energy=clamp(s.energy+15);
+   toast("🛌 Кот отдохнул!");
+ } else {
+   s.illnessProgress++;
+   s.mood=clamp(s.mood+5);
+   toast("💊 Лечение помогло!");
+ }
+ if(s.illnessProgress>=3){
+   toast("🎉 Кот полностью выздоровел!");
+   s.illness=null;s.illnessProgress=0;s.diagnosed=false;
+   s.mood=clamp(s.mood+15);s.energy=clamp(s.energy+10);xp(25);
+ }
+ save();renderClinic();
+}
+
+function resetGame(){if(confirm("Точно удалить весь прогресс?")){localStorage.removeItem("tom-ultimate");localStorage.removeItem("tom-claims");location.reload()}}
+function closeModal(){$("overlay").style.display="none"}
+function checkDay(){let d=new Date().toDateString();if(s.lastDay!==d){s.streak++;s.lastDay=d;if(s.streak>1){s.coins+=s.streak*5;toast("🔥 Серия "+s.streak+" дней! Бонус получен");}save()}}
+setInterval(()=>{s.hunger=clamp(s.hunger-1);s.clean=clamp(s.clean-.5);if(s.hunger<25)s.mood=clamp(s.mood-1);if(s.bought.house)s.coins+=10;maybeIllness();save()},30000);
+checkDay();render();setTimeout(maybeIllness,2500);
+</script>
+</body>
+</html>
